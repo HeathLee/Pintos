@@ -1,0 +1,21 @@
+我需要什么数据结构：
+multi2:释放的是哪一个锁？对应的捐赠前优先级是多少？释放锁时要删除对应的锁捐赠前旧优先级的记录，并且从捐赠的优先权记录中找到一个最高的优先级莱设置当前线程(先设置后删除)  ---------释放的锁不是捐赠列表中的最高优先级的捐赠者时，优先权不需要变化
+struct thread -> struct donating_thread {
+	struct thread* thread;
+	struct lock* lock;
+	int  old_priority;
+}
+struct thread -> list donating_thread_list;
+struct thread -> int old_priority_array[64]; 锁的持有者在某个锁只记录一个最初的旧优先级
+
+nest:锁的持有者给谁捐赠过优先级？被捐赠后递归的把新的优先级捐赠，
+struct thread -> donating_to_list;
+
+lower:
+被捐赠过的线程设置优先级时要进行判断
+struct thread -> book is_donated;
+恢复优先级时恢复到哪一个？
+chain:
+受到捐赠的优先级要把新的优先级递归的捐赠
+
+sema:
